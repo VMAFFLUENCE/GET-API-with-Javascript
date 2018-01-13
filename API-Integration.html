@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by anonymous (http://jsbin.com/medapiqonu/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>API Intergration using the Javascript Codings</title>
+<style id="jsbin-css">
+body {
+  background: green;
+
+  h1 {
+    text-align: center;
+    font-family: arial;
+    color: #5a5a5a;
+  }
+
+  li {
+    display: block;
+    list-style:none;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content:center;
+    flex-basis: 100%;
+
+    li {
+      flex-basis: 40%;
+      display:flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      align-items:center;
+
+      span {
+        font-family: arial;
+        font-size: 20px;
+        color: #5a5a5a;
+        text-align: center;
+      }
+
+      img {
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+      }
+    }
+  }
+
+}
+</style>
+</head>
+<body>
+  <h1>Authors</h1>
+  <ul id="authors"></ul>
+<script id="jsbin-javascript">
+'use strict';
+
+function createNode(element) {
+  return document.createElement(element);
+}
+
+function append(parent, el) {
+  return parent.appendChild(el);
+}
+
+var ul = document.getElementById('authors');
+var url = 'https://randomuser.me/api/?results=20';
+fetch(url).then(function (resp) {
+  return resp.json();
+}).then(function (data) {
+  var authors = data.results;
+  return authors.map(function (author) {
+    var li = createNode('li'),
+        img = createNode('img'),
+        span = createNode('span');
+    img.src = author.picture.medium;
+    span.innerHTML = author.name.first + ' ' + author.name.last;
+    append(li, img);
+    append(li, span);
+    append(ul, li);
+  });
+})['catch'](function (error) {
+  console.log(JSON.stringify(error));
+});
+</script>
+</body>
+</html>
